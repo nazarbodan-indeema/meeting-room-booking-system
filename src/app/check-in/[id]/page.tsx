@@ -21,7 +21,7 @@ const demoBooking = {
 };
 
 export default function CheckInPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+  const { id: _id } = use(params);
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
   const [isCheckingIn, setIsCheckingIn] = useState(false);

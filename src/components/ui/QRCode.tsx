@@ -1,7 +1,6 @@
 'use client';
 
 import { QRCodeSVG } from 'qrcode.react';
-import { Card } from './Card';
 
 interface QRCodeProps {
   value: string;

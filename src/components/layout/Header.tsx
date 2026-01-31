@@ -15,6 +15,7 @@ export function Header() {
         {/* Left side: Menu + Logo */}
         <div className="flex items-center gap-4">
           <button
+          type="button"
             onClick={toggle}
             className="p-2 hover:bg-surface-hover rounded-lg lg:hidden"
             aria-label="Toggle menu"
@@ -109,9 +110,11 @@ function OfficeSwitcher() {
 function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setIsOpen(false);
@@ -132,10 +135,14 @@ function ThemeToggle() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg hover:bg-surface-hover transition-colors"
+        className="p-2 rounded-lg hover:bg-surface-hover transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
         aria-label="Toggle theme"
       >
-        {resolvedTheme === 'dark' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+        {mounted ? (
+          resolvedTheme === 'dark' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />
+        ) : (
+          <div className="w-5 h-5" /> // Placeholder to avoid layout shift
+        )}
       </button>
 
       <AnimatePresence>

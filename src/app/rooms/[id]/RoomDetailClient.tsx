@@ -137,7 +137,7 @@ export function RoomDetailClient({ room, existingBookings }: RoomDetailClientPro
 
             {/* Amenities */}
             <h3 className="font-semibold mb-3">Amenities</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 mb-6">
               {room.amenities.map((amenity: string) => {
                 const config = amenityIcons[amenity];
                 if (!config) return null;
@@ -152,6 +152,29 @@ export function RoomDetailClient({ room, existingBookings }: RoomDetailClientPro
                   </div>
                 );
               })}
+            </div>
+
+            {/* AI Presence Detection (Bonus Feature Mock) */}
+            <div className="p-4 bg-primary-light/30 border border-primary/20 rounded-xl">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Monitor className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold">AI Presence Detection</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                  <span className="text-[10px] font-medium text-success uppercase tracking-wider">
+                    Live
+                  </span>
+                </div>
+              </div>
+              <p className="text-xs text-foreground-secondary mb-3">
+                Real-time camera analysis is monitoring room occupancy to prevent no-shows.
+              </p>
+              <div className="flex items-center justify-between p-2 bg-surface rounded-lg border border-border">
+                <span className="text-xs font-medium">Current Status:</span>
+                <span className="text-xs font-bold text-primary">Vacant</span>
+              </div>
             </div>
           </Card>
         </motion.div>

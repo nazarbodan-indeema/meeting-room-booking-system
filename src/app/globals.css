@@ -114,6 +114,10 @@
     @apply bg-surface/80 backdrop-blur-md border border-border rounded-lg p-5;
   }
 
+  .glass {
+    @apply bg-background/80 backdrop-blur-md;
+  }
+
   /* Gradient Variants */
   .gradient-primary {
     background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);

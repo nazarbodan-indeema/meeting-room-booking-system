@@ -68,24 +68,27 @@ export function RoomDetailClient({ room, existingBookings }: RoomDetailClientPro
   const timeSlots = generateTimeSlots();
 
   const handleBook = async () => {
-    if (!selectedTime || !title) return;
+    if (!title) {
+      alert('Please enter a meeting title');
+      return;
+    }
+    if (!selectedTime) {
+      alert('Please select a time slot');
+      return;
+    }
+    
     setIsBooking(true);
 
     try {
-      const startTime = new Date(selectedDate);
-      const [h, m] = selectedTime.split(':').map(Number);
-      startTime.setHours(h, m, 0);
-
-      const endTime = new Date(startTime);
-      endTime.setMinutes(endTime.getMinutes() + duration);
-
       await createBooking({
         title,
         description: '',
-        startTime: startTime.toISOString(),
-        endTime: endTime.toISOString(),
+        date: selectedDate,
+        startTime: selectedTime,
+        duration: duration,
         roomId: room.id,
-        userId: 'demo-user-id', // Would be real user ID
+        userId: 'demo-user-id', // Real app would use actual session user
+        isRecurring: false,
       });
 
       router.push('/bookings');
@@ -97,7 +100,7 @@ export function RoomDetailClient({ room, existingBookings }: RoomDetailClientPro
     }
   };
 
-  return (
+return (
     <div className="space-y-6">
       {/* Back Button */}
       <Link
@@ -247,11 +250,10 @@ export function RoomDetailClient({ room, existingBookings }: RoomDetailClientPro
 
               <Button
                 className="w-full"
-                disabled={!selectedTime || !title}
                 isLoading={isBooking}
                 onClick={handleBook}
               >
-                Book Room
+                Book Now
               </Button>
             </CardContent>
           </Card>

@@ -93,10 +93,12 @@ async function main() {
   console.log('✅ Rooms created');
 
   // 4. Create a Demo User
+  await prisma.user.deleteMany({ where: { email: 'demo@example.com' } });
   const demoUser = await prisma.user.upsert({
-    where: { email: 'demo@example.com' },
+    where: { id: 'demo-user-id' },
     update: {},
     create: {
+      id: 'demo-user-id',
       email: 'demo@example.com',
       name: 'Demo User',
       role: 'USER',

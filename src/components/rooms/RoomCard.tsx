@@ -73,18 +73,18 @@ export function RoomCard({ room, showBookButton = true }: RoomCardProps) {
             </div>
           )}
 
-          {/* Book Button */}
+          {/* Action Area */}
           {showBookButton && availability === 'available' && (
-            <Button
-              variant="primary"
-              className="w-full mt-auto"
-              onClick={(e) => {
-                e.preventDefault();
-                // Navigate to booking will be handled by Link
-              }}
-            >
-              Book Now
-            </Button>
+            <div className="mt-auto pt-4">
+              <div
+                className={cn(
+                  'btn btn-primary w-full inline-flex items-center justify-center py-2 text-sm',
+                  'group-hover:bg-primary-hover transition-colors'
+                )}
+              >
+                Book Now
+              </div>
+            </div>
           )}
         </Card>
       </Link>

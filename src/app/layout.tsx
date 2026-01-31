@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Header, Sidebar } from '@/components/layout';
-import { OfficeProvider, ThemeProvider } from '@/components/providers';
+import { OfficeProvider, SidebarProvider, ThemeProvider } from '@/components/providers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,13 +31,15 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider>
           <OfficeProvider>
-            <div className="min-h-screen">
-              <Header />
-              <Sidebar />
-              <main className="pt-16 pl-[240px] min-h-screen transition-all duration-200">
-                <div className="page-container">{children}</div>
-              </main>
-            </div>
+            <SidebarProvider>
+              <div className="min-h-screen">
+                <Header />
+                <Sidebar />
+                <main className="pt-16 lg:pl-[var(--sidebar-width,240px)] min-h-screen transition-all duration-200">
+                  <div className="page-container">{children}</div>
+                </main>
+              </div>
+            </SidebarProvider>
           </OfficeProvider>
         </ThemeProvider>
       </body>

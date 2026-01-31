@@ -1,26 +1,40 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Building2, ChevronDown, Monitor, Moon, Sun, User } from 'lucide-react';
+import { Building2, ChevronDown, Menu, Monitor, Moon, Sun, User } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useOffice, useTheme } from '@/components/providers';
+import { useOffice, useSidebar, useTheme } from '@/components/providers';
 
 export function Header() {
+  const { toggle } = useSidebar();
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-16 glass border-b border-border">
       <div className="h-full px-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-            <Building2 className="w-5 h-5 text-white" />
-          </div>
-          <span className="font-semibold text-lg hidden sm:block">RoomBook</span>
-        </Link>
+        {/* Left side: Menu + Logo */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggle}
+            className="p-2 hover:bg-surface-hover rounded-lg lg:hidden"
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-5 h-5 text-foreground" />
+          </button>
+          
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
+              <Building2 className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-semibold text-lg hidden sm:block">RoomBook</span>
+          </Link>
+        </div>
 
         {/* Right side actions */}
         <div className="flex items-center gap-2">
-          <OfficeSwitcher />
+          <div className="hidden sm:block">
+            <OfficeSwitcher />
+          </div>
           <ThemeToggle />
           <UserMenu />
         </div>

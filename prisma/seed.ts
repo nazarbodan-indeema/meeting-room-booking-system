@@ -1,11 +1,23 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+import 'dotenv/config';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
+import { Pool } from 'pg';
 
-const prisma = new PrismaClient();
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('🌱 Seeding database...');
+  console.log('Environment DATABASE_URL exists:', !!process.env.DATABASE_URL);
 
-  // 1. Create Offices
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is not defined in environment');
+  }
   const wroclaw = await prisma.office.upsert({
     where: { id: 'office-wroclaw' },
     update: {},

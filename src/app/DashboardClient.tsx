@@ -23,10 +23,17 @@ import {
 } from '@/components/ui';
 
 interface DashboardClientProps {
-  stats: { label: string; value: string; icon: any; color: string }[];
+  stats: { label: string; value: string; iconName: string; color: string }[];
   upcomingBookings: any[];
   availableRooms: any[];
 }
+
+const IconMap: Record<string, any> = {
+  MapPin,
+  Calendar,
+  CheckCircle,
+  XCircle,
+};
 
 export function DashboardClient({ stats, upcomingBookings, availableRooms }: DashboardClientProps) {
   const { currentOffice } = useOffice();
@@ -47,6 +54,7 @@ export function DashboardClient({ stats, upcomingBookings, availableRooms }: Das
               weekday: 'long',
               month: 'long',
               day: 'numeric',
+              year: 'numeric',
             })}
           </p>
         </div>
@@ -58,7 +66,7 @@ export function DashboardClient({ stats, upcomingBookings, availableRooms }: Das
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => {
-          const Icon = stat.icon;
+          const Icon = IconMap[stat.iconName] || MapPin;
           return (
             <motion.div
               key={stat.label}
@@ -66,7 +74,7 @@ export function DashboardClient({ stats, upcomingBookings, availableRooms }: Das
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="relative overflow-hidden">
+              <Card className="p-4 relative overflow-hidden">
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="text-sm text-foreground-secondary">{stat.label}</p>

@@ -19,23 +19,23 @@ export default async function DashboardPage() {
   const availableNow = rooms.length - activeBookings.length; // Simplified for demo
 
   const stats = [
-    { label: 'Total Rooms', value: rooms.length.toString(), icon: MapPin, color: 'text-primary' },
+    { label: 'Total Rooms', value: rooms.length.toString(), iconName: 'MapPin', color: 'text-primary' },
     {
       label: 'Active Bookings',
       value: activeBookings.length.toString(),
-      icon: Calendar,
+      iconName: 'Calendar',
       color: 'text-success',
     },
     {
       label: 'Available Now',
       value: Math.max(0, availableNow).toString(),
-      icon: CheckCircle,
+      iconName: 'CheckCircle',
       color: 'text-info',
     },
     {
       label: 'No-Show Rate',
       value: `${Math.round(statsData.noShowRate)}%`,
-      icon: XCircle,
+      iconName: 'XCircle',
       color: 'text-warning',
     },
   ];

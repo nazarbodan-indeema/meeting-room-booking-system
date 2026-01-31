@@ -88,12 +88,16 @@ export function BookingsClient({ initialBookings }: BookingsClientProps) {
                   </div>
 
                   {/* Booking Details */}
-                  <div>
-                    <h3 className="font-semibold">{booking.title}</h3>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold truncate" title={booking.title}>
+                      {booking.title}
+                    </h3>
                     <div className="flex flex-wrap items-center gap-3 text-sm text-foreground-secondary mt-1">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {booking.room?.name} • Floor {booking.room?.floor}
+                      <span className="flex items-center gap-1 min-w-0">
+                        <MapPin className="w-3 h-3 flex-shrink-0" />
+                        <span className="truncate" title={`${booking.room?.name} • Floor ${booking.room?.floor}`}>
+                          {booking.room?.name} • Floor {booking.room?.floor}
+                        </span>
                       </span>
                       <span className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />

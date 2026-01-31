@@ -130,8 +130,10 @@ export function DashboardClient({ stats, upcomingBookings, availableRooms }: Das
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium">{booking.title}</p>
-                          <p className="text-sm text-foreground-secondary">
+                          <p className="font-medium truncate max-w-[200px]" title={booking.title}>
+                            {booking.title}
+                          </p>
+                          <p className="text-sm text-foreground-secondary truncate max-w-[200px]" title={booking.room?.name}>
                             {booking.room?.name} •{' '}
                             {new Date(booking.startTime).toLocaleTimeString([], {
                               hour: '2-digit',

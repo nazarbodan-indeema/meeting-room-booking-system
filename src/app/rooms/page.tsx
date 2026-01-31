@@ -7,7 +7,7 @@ export default async function RoomsPage() {
   const rooms = await getRooms('office-wroclaw');
 
   // Map to the format expected by the UI (adding demo availability for now)
-  const roomsWithAvailability = rooms.map((room) => ({
+  const roomsWithAvailability = rooms.map((room: any) => ({
     ...room,
     availability: ['available', 'occupied', 'upcoming'][Math.floor(Math.random() * 3)] as any,
   }));

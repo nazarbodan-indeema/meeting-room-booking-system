@@ -1,4 +1,4 @@
-import type { Booking, BookingStatus, Office, Room, User, UserRole } from '@/generated/prisma';
+import type { Booking, BookingStatus, Office, Room, User, UserRole } from '@prisma/client';
 
 // Re-export Prisma types
 export type { Office, Room, User, Booking, BookingStatus, UserRole };

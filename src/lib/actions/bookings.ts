@@ -3,28 +3,36 @@
 import type { BookingStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
-import { CreateBookingSchema } from '@/lib/validations';
+import { createBookingSchema } from '@/lib/validations';
 
 export async function createBooking(data: any) {
-  const validated = CreateBookingSchema.safeParse(data);
+  const validated = createBookingSchema.safeParse(data);
   if (!validated.success) {
     throw new Error('Invalid booking data');
   }
 
+  const { title, date, startTime, duration, roomId, userId, description, isRecurring } =
+    validated.data;
+
+  const start = new Date(`${date}T${startTime}`);
+  const end = new Date(start.getTime() + duration * 60 * 1000);
+
   const booking = await prisma.booking.create({
     data: {
-      title: validated.data.title,
-      description: validated.data.description,
-      startTime: new Date(validated.data.startTime),
-      endTime: new Date(validated.data.endTime),
-      roomId: validated.data.roomId,
-      userId: validated.data.userId,
+      title,
+      description,
+      startTime: start,
+      endTime: end,
+      roomId,
+      userId,
+      isRecurring,
       status: 'PENDING',
     },
   });
 
   revalidatePath('/bookings');
-  revalidatePath(`/rooms/${validated.data.roomId}`);
+  revalidatePath('/rooms');
+  revalidatePath(`/rooms/${roomId}`);
   return booking;
 }
 

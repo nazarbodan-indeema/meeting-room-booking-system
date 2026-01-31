@@ -2,6 +2,7 @@ import { z } from 'zod/v4';
 
 export const createBookingSchema = z.object({
   roomId: z.string().min(1, 'Room is required'),
+  userId: z.string().min(1, 'User is required'),
   title: z.string().min(1, 'Title is required').max(100, 'Title too long'),
   description: z.string().max(500, 'Description too long').optional(),
   date: z.string().min(1, 'Date is required'),

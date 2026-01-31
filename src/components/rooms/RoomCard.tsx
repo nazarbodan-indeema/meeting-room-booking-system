@@ -53,7 +53,7 @@ export function RoomCard({ room, showBookButton = true }: RoomCardProps) {
           {/* Amenities */}
           {room.amenities && room.amenities.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
-              {room.amenities.slice(0, 4).map((amenity) => {
+              {room.amenities.slice(0, 4).map((amenity: string) => {
                 const Icon = amenityIcons[amenity] || Monitor;
                 return (
                   <span

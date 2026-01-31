@@ -15,7 +15,7 @@ export default async function DashboardPage() {
     getUtilizationStats(officeId),
   ]);
 
-  const activeBookings = bookings.filter((b) => b.status === 'PENDING' || b.status === 'CONFIRMED');
+  const activeBookings = bookings.filter((b: { status: string }) => b.status === 'PENDING' || b.status === 'CONFIRMED');
   const availableNow = rooms.length - activeBookings.length; // Simplified for demo
 
   const stats = [
@@ -41,7 +41,7 @@ export default async function DashboardPage() {
   ];
 
   // Map rooms to have availability for display
-  const roomsWithAvailability = rooms.slice(0, 4).map((room) => ({
+  const roomsWithAvailability = rooms.slice(0, 4).map((room: any) => ({
     ...room,
     availability: 'available', // In real app, check against current time
   }));

@@ -12,7 +12,6 @@ async function main() {
     create: {
       id: 'office-wroclaw',
       name: 'Wroclaw HQ',
-      location: 'Wroclaw, Poland',
       timezone: 'Europe/Warsaw',
     },
   });
@@ -23,7 +22,6 @@ async function main() {
     create: {
       id: 'office-lviv',
       name: 'Lviv Office',
-      location: 'Lviv, Ukraine',
       timezone: 'Europe/Kiev',
     },
   });

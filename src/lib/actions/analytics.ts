@@ -16,9 +16,9 @@ export async function getUtilizationStats(officeId: string, days = 7) {
 
   // Basic stats calculation for the demo
   const totalBookings = bookings.length;
-  const completed = bookings.filter((b) => b.status === 'COMPLETED').length;
-  const noShows = bookings.filter((b) => b.status === 'NO_SHOW').length;
-  const cancelled = bookings.filter((b) => b.status === 'CANCELLED').length;
+  const completed = bookings.filter((b: { status: string }) => b.status === 'COMPLETED').length;
+  const noShows = bookings.filter((b: { status: string }) => b.status === 'NO_SHOW').length;
+  const cancelled = bookings.filter((b: { status: string }) => b.status === 'CANCELLED').length;
 
   return {
     totalBookings,
@@ -48,7 +48,7 @@ export async function processNoShows() {
   // Update them to NO_SHOW
   const result = await prisma.booking.updateMany({
     where: {
-      id: { in: overdueBookings.map((b) => b.id) },
+      id: { in: overdueBookings.map((b: { id: string }) => b.id) },
     },
     data: {
       status: 'NO_SHOW',

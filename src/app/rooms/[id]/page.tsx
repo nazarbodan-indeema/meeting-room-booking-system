@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { RoomDetailClient } from './RoomDetailClient';
 
 export default async function RoomDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+  const { id } = await params;
 
   const room = await prisma.room.findUnique({
     where: { id },

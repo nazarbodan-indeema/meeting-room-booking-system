@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { getOffices } from '@/lib/actions/rooms';
 import type { Office } from '@/types';
 
 interface OfficeContextType {
@@ -12,26 +13,8 @@ interface OfficeContextType {
 
 const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 
-// Demo offices - will be replaced with API call
-const DEMO_OFFICES: Office[] = [
-  {
-    id: 'office-wroclaw',
-    name: 'Wroclaw',
-    timezone: 'Europe/Warsaw',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: 'office-lviv',
-    name: 'Lviv',
-    timezone: 'Europe/Kiev',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
-
 export function OfficeProvider({ children }: { children: React.ReactNode }) {
-  const [offices, setOffices] = useState<Office[]>(DEMO_OFFICES);
+  const [offices, setOffices] = useState<Office[]>([]);
   const [currentOffice, setCurrentOffice] = useState<Office | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,18 +22,15 @@ export function OfficeProvider({ children }: { children: React.ReactNode }) {
     // Load offices from API
     const loadOffices = async () => {
       try {
-        // TODO: Replace with actual API call
-        // const res = await fetch('/api/offices');
-        // const data = await res.json();
-        // setOffices(data);
-
-        // For now, use demo data
-        setOffices(DEMO_OFFICES);
+        const data = await getOffices();
+        setOffices(data as any);
 
         // Load saved office preference
         const savedOfficeId = localStorage.getItem('currentOfficeId');
-        const savedOffice = DEMO_OFFICES.find((o) => o.id === savedOfficeId);
-        setCurrentOffice(savedOffice || DEMO_OFFICES[0]);
+        const savedOffice = (data as any).find((o: any) => o.id === savedOfficeId);
+        setCurrentOffice(savedOffice || data[0] || null);
+      } catch (error) {
+        console.error('Failed to load offices:', error);
       } finally {
         setIsLoading(false);
       }

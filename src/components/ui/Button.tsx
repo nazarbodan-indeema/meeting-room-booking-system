@@ -46,7 +46,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
         whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
-        className={cn('btn', variants[variant], sizes[size], className)}
+        className={cn(
+          'btn inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-primary/50',
+          variants[variant],
+          sizes[size],
+          className
+        )}
         disabled={disabled || isLoading}
         {...props}
       >

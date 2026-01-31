@@ -1,7 +1,7 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { AlertCircle, ArrowLeft, Camera, CheckCircle, Clock, MapPin, QrCode } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { AlertCircle, ArrowLeft, Camera, CheckCircle, Clock, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { use, useEffect, useState } from 'react';

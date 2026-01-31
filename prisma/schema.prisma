@@ -1,0 +1,88 @@
+// Meeting Room Booking System - Prisma Schema
+// Database: Supabase (PostgreSQL)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Office {
+  id        String   @id @default(cuid())
+  name      String
+  timezone  String   @default("Europe/Warsaw")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rooms     Room[]
+}
+
+model Room {
+  id        String    @id @default(cuid())
+  name      String
+  capacity  Int
+  floor     Int
+  amenities String[]
+  officeId  String
+  office    Office    @relation(fields: [officeId], references: [id], onDelete: Cascade)
+  coordX    Float?    // For floor map positioning
+  coordY    Float?    // For floor map positioning
+  imageUrl  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+
+  @@index([officeId])
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  avatarUrl String?
+  role      UserRole  @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  roomId      String
+  room        Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  status      BookingStatus @default(PENDING)
+  checkedInAt DateTime?
+  isRecurring Boolean       @default(false)
+  recurringId String?       // Groups recurring bookings together
+  qrCode      String?       @unique // Unique QR code for check-in
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([roomId])
+  @@index([userId])
+  @@index([startTime, endTime])
+  @@index([status])
+}
+
+enum BookingStatus {
+  PENDING     // Awaiting check-in
+  CONFIRMED   // Checked in
+  CANCELLED   // Cancelled by user or system
+  NO_SHOW     // Auto-cancelled due to no check-in
+  COMPLETED   // Meeting ended
+}

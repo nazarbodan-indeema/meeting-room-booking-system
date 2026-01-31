@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import type { Room, RoomAvailability } from '@/types';
 
 interface FloorMapProps {
@@ -21,6 +22,12 @@ const roomPositions: Record<string, { x: number; y: number; width: number; heigh
 };
 
 export function FloorMap({ rooms, selectedRoomId, onRoomSelect, floor }: FloorMapProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const getAvailabilityColor = (availability?: RoomAvailability) => {
     switch (availability) {
       case 'available':
@@ -34,11 +41,17 @@ export function FloorMap({ rooms, selectedRoomId, onRoomSelect, floor }: FloorMa
     }
   };
 
+  if (!mounted) {
+    return (
+      <div className="relative w-full aspect-video bg-surface rounded-xl border border-border animate-pulse" />
+    );
+  }
+
   return (
     <div className="relative w-full aspect-video bg-surface rounded-xl border border-border overflow-hidden">
       {/* Floor Label */}
       <div className="absolute top-4 left-4 px-3 py-1.5 bg-surface text-sm font-medium rounded-lg border border-border shadow-sm">
-        Floor {floor}
+        {`Floor ${floor}`}
       </div>
 
       <svg
@@ -48,7 +61,7 @@ export function FloorMap({ rooms, selectedRoomId, onRoomSelect, floor }: FloorMa
         role="img"
         aria-labelledby="floor-map-title"
       >
-        <title id="floor-map-title">Interactive floor map for office floor {floor}</title>
+        <title id="floor-map-title">{`Interactive floor map for office floor ${floor}`}</title>
         {/* Background grid */}
         <defs>
           <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -117,7 +130,7 @@ export function FloorMap({ rooms, selectedRoomId, onRoomSelect, floor }: FloorMa
                 fill="var(--foreground-secondary)"
                 fontSize="10"
               >
-                {room.capacity} people
+                {`${room.capacity} people`}
               </text>
 
               {/* Status indicator */}

@@ -12,6 +12,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useOffice } from '@/components/providers';
 import {
   AvailabilityBadge,
@@ -37,6 +38,11 @@ const IconMap: Record<string, any> = {
 
 export function DashboardClient({ stats, upcomingBookings, availableRooms }: DashboardClientProps) {
   const { currentOffice } = useOffice();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -50,7 +56,7 @@ export function DashboardClient({ stats, upcomingBookings, availableRooms }: Das
           <h1 className="text-2xl font-bold">Good morning! 👋</h1>
           <p className="text-foreground-secondary mt-1">
             {currentOffice?.name} Office •{' '}
-            {new Date().toLocaleDateString('en-US', {
+            {mounted && new Date().toLocaleDateString('en-US', {
               weekday: 'long',
               month: 'long',
               day: 'numeric',

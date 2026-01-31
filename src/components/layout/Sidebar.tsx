@@ -28,7 +28,12 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const { isOpen, setIsOpen, isCollapsed, setIsCollapsed } = useSidebar();
+  const [mounted, setMounted] = useState(false);
   const width = isCollapsed ? 72 : 240;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -49,7 +54,7 @@ export function Sidebar() {
         initial={false}
         animate={{
           width: width,
-          x: isOpen ? 0 : typeof window !== 'undefined' && window.innerWidth < 1024 ? -width : 0,
+          x: mounted && isOpen ? 0 : mounted && window.innerWidth < 1024 ? -width : 0,
         }}
         transition={{ duration: 0.2, ease: 'easeInOut' }}
         style={{ '--sidebar-width': `${width}px` } as any}
@@ -66,6 +71,7 @@ export function Sidebar() {
             <span className="font-semibold text-lg">RoomBook</span>
           </Link>
           <button
+          type="button"
             onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-surface-hover rounded-lg"
           >

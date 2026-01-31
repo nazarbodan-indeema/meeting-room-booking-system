@@ -10,6 +10,7 @@ import type { Room, RoomAvailability } from '@/types';
 interface RoomCardProps {
   room: Room & { availability?: RoomAvailability };
   showBookButton?: boolean;
+  className?: string;
 }
 
 const amenityIcons: Record<string, typeof Tv> = {
@@ -22,13 +23,13 @@ const amenityIcons: Record<string, typeof Tv> = {
   coffee: Coffee,
 };
 
-export function RoomCard({ room, showBookButton = true }: RoomCardProps) {
+export function RoomCard({ room, showBookButton = true, className }: RoomCardProps) {
   const availability = room.availability || 'available';
 
   return (
     <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
       <Link href={`/rooms/${room.id}`}>
-        <Card variant="interactive" className="h-full">
+        <Card variant="interactive" className={cn("h-full", className)}>
           {/* Room Header */}
           <div className="flex items-start justify-between mb-4">
             <div

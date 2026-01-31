@@ -129,9 +129,10 @@ export function RoomsClient({ initialRooms }: RoomsClientProps) {
             {selectedRoomId ? (
               <RoomCard
                 room={filteredRooms.find((r) => r.id === selectedRoomId) || filteredRooms[0]}
+                className="!bg-white dark:!bg-surface !text-gray-900 dark:!text-foreground shadow-lg border-2 border-transparent"
               />
             ) : (
-              <Card className="h-full flex items-center justify-center text-foreground-secondary">
+              <Card className="h-full flex items-center justify-center text-foreground-secondary !bg-white dark:!bg-surface">
                 <div className="text-center">
                   <MapIcon className="w-12 h-12 mx-auto mb-3 opacity-50" />
                   <p>Select a room on the map</p>
